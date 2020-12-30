@@ -402,6 +402,10 @@ MODULE_AUTHOR("YNGUYEN");
 /*msm8953-pinctrl.dtsi*/
 
 /*
-Run: echo <delay_time you want> > /sys/class/get-gpio-led/led-gpio/mode
-Note: <delay_time you want> is an integer in the range [0;100], unit: seconds
+Run: echo <delay_time you want> > /sys/class/get-gpio-led/led-gpio/blink-time
+Note: <delay_time you want> is an integer, unit: mlseconds
+*/
+/*
+Run IOCTL: /vendor/bin/gpio_led => type <Delay-time>
+Run Read/Write: /vendor/bin/gpio_led => type <Delay-time>
 */
