@@ -409,3 +409,4 @@ Note: <delay_time you want> is an integer, unit: mlseconds
 Run IOCTL: /vendor/bin/gpio_led => type <Delay-time>
 Run Read/Write: /vendor/bin/gpio_led => type <Delay-time>
 */
+//30/12/2020 Nguyen Van Huynh Y
