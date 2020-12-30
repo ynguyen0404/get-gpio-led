@@ -377,7 +377,7 @@ MODULE_AUTHOR("YNGUYEN");
 *			compatible = "get-gpio-led";
 *			status = "okay";
 *			gpio-pin = <&tlmm 21 0x1>;
-*			delay-time = <20>;
+*			delay-time = <500>;
 *			led-active-low;
 *		};
 */
