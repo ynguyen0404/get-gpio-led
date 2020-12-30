@@ -1,5 +1,6 @@
 # get-gpio-led
-/*msm8953-mtp.dtsi*/
+#msm8953-mtp.dtsi
+
 	gpio_led {
 		compatible = "get-gpio-led";
 		status = "okay";
@@ -7,9 +8,11 @@
 		delay-time = <500>;
 		led-active-low;
 	};
-/*msm8953-mtp.dtsi*/
+	
+#msm8953-mtp.dtsi
 
-/*msm8953-pinctrl.dtsi*/
+#msm8953-pinctrl.dtsi
+
 		led_gpio: led_gpio {
 			//ENABLE
 			mux {
@@ -23,7 +26,7 @@
 				drive-strength = <2>;
 			};
 		};
-/*msm8953-pinctrl.dtsi*/
+#msm8953-pinctrl.dtsi
 
 
 Run: echo <delay_time you want> > /sys/class/get-gpio-led/led-gpio/blink-time
