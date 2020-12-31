@@ -84,12 +84,12 @@ static int blink_led(void* param){
 	PINFO ("Blink time while true!\n");
 	while(!kthread_should_stop())
 	{	gpio_set_value(data->led_gpio.gpio, 1 ^ data->led_gpio.active_low);
-		for(i = 0; i < data->delay_time; i++){
-			msleep(1);
+		for(i = 0; i < data->delay_time/10; i++){
+			msleep(10);
 		}
 		gpio_set_value(data->led_gpio.gpio, 0 ^ data->led_gpio.active_low);
-		for(i = 0; i < data->delay_time; i++){
-			msleep(1);
+		for(i = 0; i < data->delay_time/10; i++){
+			msleep(10);
 		}
 	}
 	return 0;
