@@ -103,7 +103,7 @@ static ssize_t blink_time_store(struct device *dev, struct device_attribute *att
         PERR ("Can't get device private data\n");
 	}
 	data->delay_time = atoi_t(buff);
-	if(data->delay_time < 0 || data->delay_time > 100){
+	if(data->delay_time < 0 || data->delay_time > 3600000){
 		PINFO ("Delay-time input out of range [0;100], Retype please!\n");
 		return -1;
 	}
