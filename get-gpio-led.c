@@ -26,7 +26,10 @@
 #define RD_VALUE _IOR('a','b',int32_t*)
 int32_t value = 0;
 int32_t value1 = 0;
+
 #define BUFFER_SIZE 256
+
+
 #define PDEBUG(fmt,args...) printk(KERN_DEBUG"%s:"fmt,DRIVER_NAME, ##args)
 #define PERR(fmt,args...) printk(KERN_ERR"%s:"fmt,DRIVER_NAME,##args)
 #define PINFO(fmt,args...) printk(KERN_INFO"%s:"fmt,DRIVER_NAME, ##args)
@@ -84,12 +87,22 @@ static int blink_led(void* param){
 	PINFO ("Blink time while true!\n");
 	while(!kthread_should_stop())
 	{	gpio_set_value(data->led_gpio.gpio, 1 ^ data->led_gpio.active_low);
-		for(i = 0; i < data->delay_time/10; i++){
-			msleep(10);
+		if(data->delay_time < 1000){
+			msleep(data->delay_time);
+		}
+		else{
+			for(i = 0; i < (data->delay_time/1000); i++){
+				msleep(1000);
+			}
 		}
 		gpio_set_value(data->led_gpio.gpio, 0 ^ data->led_gpio.active_low);
-		for(i = 0; i < data->delay_time/10; i++){
-			msleep(10);
+		if(data->delay_time < 1000){
+			msleep(data->delay_time);
+		}
+		else{
+			for(i = 0; i < (data->delay_time/1000); i++){
+				msleep(1000);
+			}
 		}
 	}
 	return 0;
@@ -103,12 +116,12 @@ static ssize_t blink_time_store(struct device *dev, struct device_attribute *att
         PERR ("Can't get device private data\n");
 	}
 	data->delay_time = atoi_t(buff);
-	if(data->delay_time < 0 || data->delay_time > 3600000){
-		PINFO ("Delay-time input out of range [0;100], Retype please!\n");
+	if(data->delay_time < 0 || data->delay_time > 10000000){
+		PINFO ("Delay-time input out of range [0;10000000], Retype please!\n");
 		return -1;
 	}
 	else{
-		PINFO ("Blink time start!\n");
+			PINFO ("Blink time start!\n");
 	}
     return len;
 }
@@ -404,11 +417,6 @@ MODULE_AUTHOR("YNGUYEN");
 /*msm8953-pinctrl.dtsi*/
 
 /*
-Run: echo <delay_time you want> > /sys/class/get-gpio-led/led-gpio/blink-time
-Note: <delay_time you want> is an integer, unit: mlseconds
+Run: echo <delay_time you want> > /sys/class/get-gpio-led/led-gpio/mode
+Note: <delay_time you want> is an integer in the range [0;100], unit: seconds
 */
-/*
-Run IOCTL: /vendor/bin/gpio_led => type <Delay-time>
-Run Read/Write: /vendor/bin/gpio_led => type <Delay-time>
-*/
-//30/12/2020 Nguyen Van Huynh Y
