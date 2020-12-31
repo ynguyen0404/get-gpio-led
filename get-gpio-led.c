@@ -26,10 +26,7 @@
 #define RD_VALUE _IOR('a','b',int32_t*)
 int32_t value = 0;
 int32_t value1 = 0;
-
 #define BUFFER_SIZE 256
-
-
 #define PDEBUG(fmt,args...) printk(KERN_DEBUG"%s:"fmt,DRIVER_NAME, ##args)
 #define PERR(fmt,args...) printk(KERN_ERR"%s:"fmt,DRIVER_NAME,##args)
 #define PINFO(fmt,args...) printk(KERN_INFO"%s:"fmt,DRIVER_NAME, ##args)
@@ -82,13 +79,18 @@ static inline int sizeof_platform_data(int num_reset)
 }
 
 static int blink_led(void* param){
+	int i;
 	dev_private_data_t *data = (dev_private_data_t *)param;
 	PINFO ("Blink time while true!\n");
 	while(!kthread_should_stop())
-	{		gpio_set_value(data->led_gpio.gpio, 1 ^ data->led_gpio.active_low);//
-		msleep((data->delay_time));
+	{	gpio_set_value(data->led_gpio.gpio, 1 ^ data->led_gpio.active_low);
+		for(i = 0; i < data->delay_time; i++){
+			msleep(1);
+		}
 		gpio_set_value(data->led_gpio.gpio, 0 ^ data->led_gpio.active_low);
-		msleep((data->delay_time));
+		for(i = 0; i < data->delay_time; i++){
+			msleep(1);
+		}
 	}
 	return 0;
 }
@@ -106,7 +108,7 @@ static ssize_t blink_time_store(struct device *dev, struct device_attribute *att
 		return -1;
 	}
 	else{
-			PINFO ("Blink time start!\n");
+		PINFO ("Blink time start!\n");
 	}
     return len;
 }
